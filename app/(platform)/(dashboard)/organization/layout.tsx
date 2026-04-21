@@ -12,7 +12,7 @@ export default function OrganizationLayout({
         <div className="w-64 shrink-0 hidden md:block">
           <Sidebar />
         </div>
-        {children}
+        <div className="w-full"> {children}</div>
       </div>
     </main>
   );
