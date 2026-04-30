@@ -30,7 +30,6 @@ export default async function BoardIdPage({ params }: BoardIdPageProps) {
       order: "asc",
     },
   });
-  console.log(lists);
   return (
     <div className="p-4 h-full overflow-x-auto ">
       <ListContainer boardId={boardId} data={lists} />

@@ -1,3 +1,5 @@
+"use client";
+import { useCardModal } from "@/hooks/use-card-modal";
 import { Card } from "@/lib/generated/prisma/client";
 import { Draggable } from "@hello-pangea/dnd";
 
@@ -7,6 +9,7 @@ interface CardItemProps {
 }
 
 export default function CardItem({ index, data }: CardItemProps) {
+  const { onOpen } = useCardModal();
   return (
     <Draggable draggableId={data.id} index={index}>
       {(provided) => {
@@ -18,6 +21,7 @@ export default function CardItem({ index, data }: CardItemProps) {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
+            onClick={() => onOpen(data.id)}
           >
             {data.title}
           </div>

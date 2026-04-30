@@ -5,7 +5,7 @@ import { prisma } from "@/lib/db";
 import { ACTION, ENTITY_TYPE } from "@/lib/generated/prisma/enums";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
-import { DeleteList } from "./schema";
+import { DeleteCard } from "./schema";
 import { InputType, ReturnType } from "./types";
 
 async function handler(data: InputType): Promise<ReturnType> {
@@ -16,30 +16,31 @@ async function handler(data: InputType): Promise<ReturnType> {
     };
   }
   const { id, boardId } = data;
-  let list;
+  let card;
   try {
-    list = await prisma.list.delete({
+    card = await prisma.card.delete({
       where: {
-        id: id,
-        boardId: boardId,
-        board: {
-          orgId,
+        id,
+        list: {
+          board: {
+            orgId,
+          },
         },
       },
     });
     await createAuditLog({
-      entityTitle: list.title,
-      entityId: list.id,
-      entityType: ENTITY_TYPE.LIST,
+      entityTitle: card.title,
+      entityId: card.id,
+      entityType: ENTITY_TYPE.CARD,
       action: ACTION.DELETE,
     });
   } catch (error) {
     console.log("error", error);
     return {
-      error: "Failed to delete board",
+      error: "Failed to delete",
     };
   }
   revalidatePath(`/board/${boardId}`);
-  return { data: list };
+  return { data: card };
 }
-export const deleteList = createSafeAction(DeleteList, handler);
+export const deleteCard = createSafeAction(DeleteCard, handler);

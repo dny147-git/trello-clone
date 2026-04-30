@@ -13,14 +13,14 @@ import { Separator } from "@/components/ui/separator";
 import { useAction } from "@/hooks/use-action";
 import { List } from "@/lib/generated/prisma/client";
 import { MoreHorizontal, X } from "lucide-react";
-import { ElementRef, useRef } from "react";
+import { useRef } from "react";
 import { toast } from "sonner";
 interface ListOptionsProps {
   data: List;
   onAddCard: () => void;
 }
 export default function ListOptions({ data, onAddCard }: ListOptionsProps) {
-  const closeRef = useRef<ElementRef<"button">>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   const { execute: executeOnDelete } = useAction(deleteList, {
     onSuccess: (data) => {

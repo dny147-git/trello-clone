@@ -6,13 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useAction } from "@/hooks/use-action";
 import { Plus, X } from "lucide-react";
 import { useParams } from "next/navigation";
-import {
-  ElementRef,
-  forwardRef,
-  KeyboardEventHandler,
-  RefObject,
-  useRef,
-} from "react";
+import { forwardRef, KeyboardEventHandler, RefObject, useRef } from "react";
 import { toast } from "sonner";
 import { useEventListener, useOnClickOutside } from "usehooks-ts";
 
@@ -25,7 +19,7 @@ interface CardFormProps {
 export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
   ({ listId, enableEditing, disableEditing, isEditing }, ref) => {
     const params = useParams();
-    const formRef = useRef<ElementRef<"form">>(null);
+    const formRef = useRef<HTMLFormElement>(null);
 
     const { execute, fieldErrors } = useAction(createCard, {
       onSuccess: (data) => {

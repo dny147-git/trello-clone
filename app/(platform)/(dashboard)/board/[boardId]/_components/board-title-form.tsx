@@ -5,7 +5,7 @@ import { FormInput } from "@/components/form/form-input";
 import { Button } from "@/components/ui/button";
 import { useAction } from "@/hooks/use-action";
 import { Board } from "@/lib/generated/prisma/client";
-import { ElementRef, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 
 interface BoardTitleFormProps {
@@ -21,8 +21,8 @@ export default function BoardTitleForm({ data }: BoardTitleFormProps) {
       toast.error(error);
     },
   });
-  const formRef = useRef<ElementRef<"form">>(null);
-  const inputRef = useRef<ElementRef<"input">>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [isEditing, setIsEditing] = useState(false);
   function enableEditing() {
     setIsEditing(true);

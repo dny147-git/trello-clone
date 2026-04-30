@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { ListWithCards } from "@/types";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
-import { ElementRef, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { CardForm } from "./card-form";
 import CardItem from "./card-item";
 import ListHeader from "./list-header";
@@ -13,7 +13,7 @@ interface ListItemProps {
   index: number;
 }
 export default function ListItem({ index, data }: ListItemProps) {
-  const textAreaRef = useRef<ElementRef<"textarea">>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [isEditing, setIsEditing] = useState(false);
   function disableEditing() {
     setIsEditing(false);

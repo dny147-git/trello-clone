@@ -9,7 +9,7 @@ import { createBoard } from "@/actions/create-board/index";
 import { useAction } from "@/hooks/use-action";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { ElementRef, useRef } from "react";
+import React, { useRef } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import {
@@ -28,7 +28,7 @@ export default function FormPopover({
   align,
   sideOffset,
 }: FormPopoverProps) {
-  const closeRef = useRef<ElementRef<"button">>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const { execute, fieldErrors } = useAction(createBoard, {
     onSuccess: (data) => {

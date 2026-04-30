@@ -5,9 +5,8 @@ import { prisma } from "@/lib/db";
 import { ACTION, ENTITY_TYPE } from "@/lib/generated/prisma/enums";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
-import { DeleteList } from "./schema";
+import { UpdateCard } from "./schema";
 import { InputType, ReturnType } from "./types";
-
 async function handler(data: InputType): Promise<ReturnType> {
   const { userId, orgId } = await auth();
   if (!userId || !orgId) {
@@ -15,31 +14,35 @@ async function handler(data: InputType): Promise<ReturnType> {
       error: "Unauthorized",
     };
   }
-  const { id, boardId } = data;
-  let list;
+  const { id, boardId, ...values } = data;
+  let card;
   try {
-    list = await prisma.list.delete({
+    card = await prisma.card.update({
       where: {
-        id: id,
-        boardId: boardId,
-        board: {
-          orgId,
+        id,
+        list: {
+          board: {
+            orgId,
+          },
         },
+      },
+      data: {
+        ...values,
       },
     });
     await createAuditLog({
-      entityTitle: list.title,
-      entityId: list.id,
-      entityType: ENTITY_TYPE.LIST,
-      action: ACTION.DELETE,
+      entityTitle: card.title,
+      entityId: card.id,
+      entityType: ENTITY_TYPE.CARD,
+      action: ACTION.UPDATE,
     });
   } catch (error) {
-    console.log("error", error);
+    console.log(error);
     return {
-      error: "Failed to delete board",
+      error: "Failed to update",
     };
   }
   revalidatePath(`/board/${boardId}`);
-  return { data: list };
+  return { data: card };
 }
-export const deleteList = createSafeAction(DeleteList, handler);
+export const updateCard = createSafeAction(UpdateCard, handler);
